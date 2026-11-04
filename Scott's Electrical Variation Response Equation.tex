@@ -1,0 +1,1431 @@
+\documentclass[12pt]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{setspace}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{caption}
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.6em}
+\onehalfspacing
+
+\captionsetup{
+    font=small,
+    labelfont=bf,
+    justification=centering
+}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+
+\title{\textbf{Scott's Electrical Variation Response Equation}}
+
+\author{
+Jaxson Scott Levoy Freeman\\
+\small Independent student researcher\\
+\small Corresponding author: \texttt{jaxsonstormy@gmail.com}
+}
+
+\date{November 2026}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+
+This paper introduces and investigates a parameterized
+mathematical functional designed to represent an
+accumulated electrical response to historical voltage
+variations.
+
+The proposed Electrical Variation Response Equation
+(EVRE) is defined by
+
+\[
+\Omega_s(t)=
+\sqrt{
+\Omega_0^2+
+\frac{\beta}{T}
+\int_0^t
+e^{-\lambda(t-\tau)}
+\left(\frac{dV(\tau)}{d\tau}\right)^2
+\,d\tau
+},
+\]
+
+where \(\Omega_0\) represents an initial response,
+\(V(t)\) denotes a time-dependent voltage signal,
+\(\beta\) is a positive scaling parameter,
+\(T\) is a reference time interval, and
+\(\lambda\) is a positive memory-decay parameter.
+
+The proposed functional combines squared voltage
+variation, exponential temporal weighting, and
+a nonlinear square-root transformation.
+
+We investigate its dimensional consistency,
+nonnegativity, boundedness under specified input
+conditions, continuity, and dependence on its
+parameters.
+
+An equivalent first-order differential equation
+is derived, allowing the historical integral to
+be represented through a local evolution equation.
+We also examine the behavior under constant voltage,
+scaled voltage inputs, and bounded voltage variation.
+
+A reconstruction expression is obtained for the
+magnitude of the instantaneous voltage derivative
+when the response and model parameters are known.
+
+The proposed equation is a mathematical construction
+rather than an established electrical law. Its
+physical interpretation, practical usefulness, and
+empirical significance require further investigation.
+
+\end{abstract}
+
+\noindent\textbf{Keywords:}
+Electrical response; voltage variation;
+exponential memory; integral functionals;
+nonlinear mathematical modeling; electrical systems;
+parameter sensitivity; differential equations.
+
+\section{Introduction}
+
+Electrical systems are commonly investigated
+through relationships involving voltage, current,
+resistance, capacitance, and inductance.
+
+Many electrical quantities are described using
+instantaneous relationships between circuit
+variables. However, mathematical models can also
+be constructed to investigate quantities that
+depend on the previous behavior of a signal.
+
+A time-dependent voltage signal may experience
+continuous variation during the operation of
+an electrical system.
+
+The magnitude and frequency of these variations
+can be investigated mathematically through
+derivatives and integral expressions.
+
+This paper introduces a parameterized functional
+that accumulates squared voltage variation over
+a historical time interval while assigning
+exponentially decreasing weight to older changes.
+
+The resulting expression introduces a
+memory-dependent mathematical response quantity
+denoted by \(\Omega_s(t)\).
+
+The purpose of this investigation is to establish
+the mathematical properties of the proposed
+functional and determine whether it provides
+a useful framework for describing accumulated
+electrical variation.
+
+The principal questions considered are:
+
+\begin{enumerate}
+    \item Is the proposed functional mathematically
+    well-defined and dimensionally consistent?
+
+    \item Is its response always nonnegative?
+
+    \item Under what conditions is the response bounded?
+
+    \item How does the memory parameter influence
+    the contribution of historical voltage changes?
+
+    \item Can the integral representation be
+    converted into a differential equation?
+
+    \item Is information about the instantaneous
+    voltage variation recoverable from the response?
+\end{enumerate}
+
+The investigation begins with the definition
+of the mathematical quantities and proceeds
+toward the construction of the proposed equation.
+
+\section{Mathematical Foundations}
+
+\subsection{The voltage function}
+
+Let
+
+\[
+V:[0,\infty)\rightarrow\mathbb{R}
+\]
+
+represent a time-dependent voltage signal.
+
+The voltage is assumed to be locally absolutely
+continuous, ensuring that its derivative exists
+almost everywhere and that the corresponding
+integral expressions can be investigated.
+
+Define the instantaneous voltage variation by
+
+\begin{equation}
+v'(t)=\frac{dV(t)}{dt}.
+\label{eq:voltage-derivative}
+\end{equation}
+
+The derivative measures the rate at which
+the voltage changes with respect to time.
+
+Its units are
+
+\[
+[v'(t)]=\frac{\mathrm{V}}{\mathrm{s}}.
+\]
+
+The square of this quantity is used in the
+construction of the proposed functional.
+
+\subsection{The historical weighting function}
+
+Introduce an exponential weighting function:
+
+\begin{equation}
+K(t,\tau)=e^{-\lambda(t-\tau)},
+\label{eq:kernel}
+\end{equation}
+
+where
+
+\[
+\lambda>0
+\]
+
+is the memory-decay parameter.
+
+For
+
+\[
+0\leq\tau\leq t,
+\]
+
+the weighting function satisfies
+
+\[
+0<K(t,\tau)\leq1.
+\]
+
+At the present time, where \(\tau=t\),
+
+\[
+K(t,t)=1.
+\]
+
+For earlier times, the weighting function
+decreases as the difference \(t-\tau\) increases.
+
+Thus, recent voltage variations receive greater
+weight than older voltage variations.
+
+\subsection{The accumulated variation functional}
+
+Define the accumulated historical variation
+by
+
+\begin{equation}
+Q(t)=
+\int_0^t
+e^{-\lambda(t-\tau)}
+\left(\frac{dV(\tau)}{d\tau}\right)^2
+\,d\tau.
+\label{eq:variation-functional}
+\end{equation}
+
+This quantity represents an exponentially
+weighted accumulation of squared voltage
+variation.
+
+Since the integrand is nonnegative,
+
+\[
+Q(t)\geq0.
+\]
+
+The functional \(Q(t)\) provides the mathematical
+foundation for the proposed response equation.
+
+\section{Definition of the Electrical Variation Response Equation}
+
+\subsection{Construction}
+
+The accumulated variation functional provides
+a nonnegative quantity that depends on the
+historical behavior of a voltage signal.
+
+To construct a response quantity with units
+of electrical resistance, introduce the following
+parameters:
+
+\begin{itemize}
+    \item \(\Omega_0\): Initial response value.
+    \item \(\beta\): Positive scaling coefficient.
+    \item \(T\): Positive reference time interval.
+    \item \(\lambda\): Positive memory-decay parameter.
+\end{itemize}
+
+The parameters satisfy
+
+\[
+\Omega_0\geq0,\qquad
+\beta>0,\qquad
+T>0,\qquad
+\lambda>0.
+\]
+
+\subsection{Formal definition}
+
+\begin{definition}[Electrical Variation Response Equation]
+
+For an admissible voltage signal \(V(t)\),
+define the Electrical Variation Response Equation
+by
+
+\begin{equation}
+\Omega_s(t)=
+\sqrt{
+\Omega_0^2+
+\frac{\beta}{T}
+\int_0^t
+e^{-\lambda(t-\tau)}
+\left(\frac{dV(\tau)}{d\tau}\right)^2
+\,d\tau
+}.
+\label{eq:evre}
+\end{equation}
+
+\end{definition}
+
+The quantity \(\Omega_s(t)\) is defined as a
+memory-dependent electrical response measure.
+
+It is not automatically equivalent to the
+physical resistance of a component.
+
+Its interpretation as a resistance-related
+quantity would require additional physical
+justification.
+
+\subsection{Dimensional consistency}
+
+The proposed expression must be dimensionally
+consistent.
+
+The voltage derivative has dimensions
+
+\[
+\left[\frac{dV}{dt}\right]
+=
+\frac{\mathrm{V}}{\mathrm{s}}.
+\]
+
+Therefore,
+
+\[
+\left[
+\left(\frac{dV}{dt}\right)^2dt
+\right]
+=
+\frac{\mathrm{V}^2}{\mathrm{s}}.
+\]
+
+The exponential function is dimensionless
+provided that
+
+\[
+[\lambda]=\mathrm{s}^{-1}.
+\]
+
+Since the quantity inside the square root
+must have units of resistance squared,
+the scaling parameter must satisfy
+
+\begin{equation}
+[\beta]
+=
+\frac{\Omega^2\mathrm{s}^2}{\mathrm{V}^2}.
+\label{eq:beta-units}
+\end{equation}
+
+The reference time has units
+
+\[
+[T]=\mathrm{s}.
+\]
+
+Consequently,
+
+\[
+\left[
+\frac{\beta}{T}Q(t)
+\right]
+=
+\Omega^2.
+\]
+
+Both terms inside the square root therefore
+have identical dimensions.
+
+The proposed equation is dimensionally
+consistent under these parameter definitions.
+
+\subsection{Equivalent representation}
+
+Using Equation~\eqref{eq:variation-functional},
+the response equation can be written as
+
+\begin{equation}
+\Omega_s(t)=
+\sqrt{
+\Omega_0^2+\frac{\beta}{T}Q(t)
+}.
+\label{eq:evre-q}
+\end{equation}
+
+This representation will be useful when
+investigating the mathematical properties
+of the functional.
+
+\section{Basic Mathematical Properties}
+
+\subsection{Nonnegativity}
+
+\begin{theorem}
+
+For every admissible voltage signal and
+all permitted parameter values,
+
+\begin{equation}
+\Omega_s(t)\geq\Omega_0\geq0.
+\label{eq:nonnegative}
+\end{equation}
+
+\end{theorem}
+
+\begin{proof}
+
+From Equation~\eqref{eq:variation-functional},
+
+\[
+Q(t)=
+\int_0^t
+e^{-\lambda(t-\tau)}
+\left(V'(\tau)\right)^2d\tau.
+\]
+
+The exponential weighting function is positive,
+and the squared voltage derivative is
+nonnegative.
+
+Therefore,
+
+\[
+Q(t)\geq0.
+\]
+
+Since
+
+\[
+\beta>0,\qquad T>0,
+\]
+
+we obtain
+
+\[
+\frac{\beta}{T}Q(t)\geq0.
+\]
+
+It follows that
+
+\[
+\Omega_0^2+\frac{\beta}{T}Q(t)
+\geq\Omega_0^2.
+\]
+
+Taking nonnegative square roots proves
+
+\[
+\Omega_s(t)\geq\Omega_0.
+\]
+
+\end{proof}
+
+\subsection{Initial condition}
+
+\begin{proposition}
+
+The response equation satisfies
+
+\begin{equation}
+\Omega_s(0)=\Omega_0.
+\end{equation}
+
+\end{proposition}
+
+\begin{proof}
+
+At \(t=0\), the integral has identical
+upper and lower limits.
+
+Therefore,
+
+\[
+Q(0)=0.
+\]
+
+Substituting into Equation~\eqref{eq:evre-q}
+gives
+
+\[
+\Omega_s(0)=\sqrt{\Omega_0^2}.
+\]
+
+Since \(\Omega_0\geq0\),
+
+\[
+\Omega_s(0)=\Omega_0.
+\]
+
+\end{proof}
+
+\subsection{Equality condition}
+
+\begin{proposition}
+
+For a fixed time \(t>0\),
+
+\[
+\Omega_s(t)=\Omega_0
+\]
+
+if and only if
+
+\[
+V'(\tau)=0
+\]
+
+for almost every \(\tau\in[0,t]\).
+
+\end{proposition}
+
+\begin{proof}
+
+The equality
+
+\[
+\Omega_s(t)=\Omega_0
+\]
+
+is equivalent to
+
+\[
+Q(t)=0.
+\]
+
+Because the weighting function is strictly
+positive and the squared derivative is
+nonnegative, the integral can equal zero
+only when
+
+\[
+V'(\tau)=0
+\]
+
+almost everywhere on the integration interval.
+
+The converse follows immediately by substitution.
+
+\end{proof}
+
+\subsection{Continuity}
+
+\begin{theorem}
+
+If \(V'\) is locally square-integrable, then
+\(\Omega_s(t)\) is continuous on every finite
+time interval.
+
+\end{theorem}
+
+\begin{proof}
+
+Let
+
+\[
+f(\tau)=\left(V'(\tau)\right)^2.
+\]
+
+By assumption, \(f\) is locally integrable.
+
+Rewrite the accumulated functional as
+
+\[
+Q(t)=
+e^{-\lambda t}
+\int_0^t e^{\lambda\tau}f(\tau)d\tau.
+\]
+
+The integrand is locally integrable.
+
+Its indefinite integral is therefore
+absolutely continuous on every finite interval.
+
+Multiplication by the continuous function
+\(e^{-\lambda t}\) preserves continuity.
+
+Thus, \(Q(t)\) is continuous.
+
+Finally,
+
+\[
+\Omega_s(t)=
+\sqrt{\Omega_0^2+\frac{\beta}{T}Q(t)}
+\]
+
+is a continuous composition of continuous
+functions.
+
+Therefore, the response is continuous.
+
+\end{proof}
+
+\section{Differential Representation}
+
+\subsection{Derivation of the differential equation}
+
+The integral representation contains
+information about the entire voltage history.
+
+However, it can also be expressed through
+a first-order differential equation.
+
+Recall that
+
+\[
+Q(t)=
+e^{-\lambda t}
+\int_0^t e^{\lambda\tau}
+\left(V'(\tau)\right)^2d\tau.
+\]
+
+Differentiate using the product rule
+and the fundamental theorem of calculus.
+
+We obtain
+
+\[
+Q'(t)=
+-\lambda e^{-\lambda t}
+\int_0^t e^{\lambda\tau}
+\left(V'(\tau)\right)^2d\tau
++
+\left(V'(t)\right)^2.
+\]
+
+Recognizing the original integral gives
+
+\begin{equation}
+Q'(t)=
+\left(V'(t)\right)^2-\lambda Q(t).
+\label{eq:q-ode}
+\end{equation}
+
+The initial condition is
+
+\[
+Q(0)=0.
+\]
+
+This differential equation is equivalent
+to the original historical integral under
+the stated assumptions.
+
+\subsection{Response evolution}
+
+From
+
+\[
+\Omega_s^2(t)=
+\Omega_0^2+\frac{\beta}{T}Q(t),
+\]
+
+differentiate both sides:
+
+\[
+2\Omega_s(t)\Omega_s'(t)
+=
+\frac{\beta}{T}Q'(t).
+\]
+
+Substituting Equation~\eqref{eq:q-ode} gives
+
+\[
+2\Omega_s\Omega_s'
+=
+\frac{\beta}{T}
+\left[
+(V')^2-\lambda Q
+\right].
+\]
+
+Since
+
+\[
+Q=
+\frac{T}{\beta}
+\left(\Omega_s^2-\Omega_0^2\right),
+\]
+
+we obtain
+
+\begin{equation}
+\Omega_s'(t)=
+\frac{
+\beta(V'(t))^2
+-
+\lambda T\left(\Omega_s^2(t)-\Omega_0^2\right)
+}{
+2T\Omega_s(t)
+}.
+\label{eq:response-ode}
+\end{equation}
+
+This equation holds wherever the response
+is differentiable and strictly positive.
+
+The differential representation shows that
+the response is influenced by two competing
+contributions.
+
+The first is the instantaneous voltage
+variation.
+
+The second is the decay of accumulated
+historical variation.
+
+\subsection{Interpretation of the differential representation}
+
+The term
+
+\[
+\beta(V'(t))^2
+\]
+
+represents the instantaneous contribution
+from voltage variation.
+
+The term
+
+\[
+\lambda T
+\left(\Omega_s^2(t)-\Omega_0^2\right)
+\]
+
+represents the decay of the accumulated
+response contribution.
+
+Consequently, the response does not necessarily
+increase at every moment.
+
+It can decrease when historical variation
+decays faster than new variation is introduced.
+
+\section{Boundedness and Input Conditions}
+
+\subsection{Bounded voltage derivative}
+
+Consider an admissible voltage signal satisfying
+
+\begin{equation}
+|V'(t)|\leq M
+\end{equation}
+
+for some finite constant \(M\geq0\).
+
+Then
+
+\[
+(V'(t))^2\leq M^2.
+\]
+
+Substitution into the accumulated functional gives
+
+\[
+Q(t)\leq
+M^2\int_0^t e^{-\lambda(t-\tau)}d\tau.
+\]
+
+Evaluating the integral,
+
+\[
+Q(t)\leq
+\frac{M^2}{\lambda}
+\left(1-e^{-\lambda t}\right).
+\]
+
+Therefore, the response satisfies the following
+result.
+
+\begin{theorem}
+
+If the voltage derivative is bounded by \(M\),
+then
+
+\begin{equation}
+\Omega_0
+\leq\Omega_s(t)
+\leq
+\sqrt{
+\Omega_0^2+
+\frac{\beta M^2}{T\lambda}
+\left(1-e^{-\lambda t}\right)
+}.
+\label{eq:bounded-response}
+\end{equation}
+
+\end{theorem}
+
+\begin{proof}
+
+The previous inequality establishes that
+
+\[
+0\leq Q(t)\leq
+\frac{M^2}{\lambda}
+\left(1-e^{-\lambda t}\right).
+\]
+
+Multiplying by \(\beta/T\) and adding
+\(\Omega_0^2\) gives
+
+\[
+\Omega_0^2
+\leq
+\Omega_s^2(t)
+\leq
+\Omega_0^2+
+\frac{\beta M^2}{T\lambda}
+\left(1-e^{-\lambda t}\right).
+\]
+
+Taking square roots proves the result.
+
+\end{proof}
+
+\subsection{Long-time boundedness}
+
+Taking the limit as \(t\to\infty\) in
+Equation~\eqref{eq:bounded-response} gives
+
+\begin{equation}
+\limsup_{t\to\infty}\Omega_s(t)
+\leq
+\sqrt{
+\Omega_0^2+
+\frac{\beta M^2}{T\lambda}
+}.
+\label{eq:long-bound}
+\end{equation}
+
+Thus, bounded voltage variation produces
+a uniformly bounded response.
+
+\subsection{Constant voltage}
+
+Suppose that the voltage remains constant:
+
+\[
+V(t)=V_0.
+\]
+
+Then
+
+\[
+V'(t)=0.
+\]
+
+Consequently,
+
+\[
+Q(t)=0
+\]
+
+and
+
+\begin{equation}
+\Omega_s(t)=\Omega_0.
+\end{equation}
+
+A constant voltage therefore produces
+no additional accumulated response.
+
+\section{Parameter Sensitivity}
+
+The response depends on three principal
+model parameters: \(\beta\), \(T\), and
+\(\lambda\).
+
+Their effects are examined independently.
+
+\subsection{Sensitivity with respect to \(\beta\)}
+
+Differentiating Equation~\eqref{eq:evre-q}
+with respect to \(\beta\) gives
+
+\begin{equation}
+\frac{\partial\Omega_s}{\partial\beta}
+=
+\frac{Q(t)}
+{2T\Omega_s(t)}.
+\label{eq:beta-sensitivity}
+\end{equation}
+
+For positive accumulated variation,
+
+\[
+Q(t)>0.
+\]
+
+Therefore,
+
+\[
+\frac{\partial\Omega_s}{\partial\beta}>0.
+\]
+
+Increasing \(\beta\) increases the modeled
+response whenever voltage variation has occurred.
+
+\subsection{Sensitivity with respect to \(T\)}
+
+Differentiating with respect to \(T\) gives
+
+\begin{equation}
+\frac{\partial\Omega_s}{\partial T}
+=
+-\frac{\beta Q(t)}
+{2T^2\Omega_s(t)}.
+\label{eq:T-sensitivity}
+\end{equation}
+
+For positive accumulated variation,
+
+\[
+\frac{\partial\Omega_s}{\partial T}<0.
+\]
+
+Thus, increasing the reference interval
+decreases the modeled response when the
+other parameters and input history remain fixed.
+
+\subsection{Sensitivity with respect to \(\lambda\)}
+
+Differentiate the historical functional:
+
+\[
+Q(t)=
+\int_0^t
+e^{-\lambda(t-\tau)}
+(V'(\tau))^2d\tau.
+\]
+
+Using differentiation under the integral sign,
+
+\[
+\frac{\partial Q}{\partial\lambda}
+=
+-\int_0^t
+(t-\tau)e^{-\lambda(t-\tau)}
+(V'(\tau))^2d\tau.
+\]
+
+Therefore,
+
+\begin{equation}
+\frac{\partial\Omega_s}{\partial\lambda}
+=
+-\frac{\beta}{2T\Omega_s}
+\int_0^t
+(t-\tau)e^{-\lambda(t-\tau)}
+(V'(\tau))^2d\tau.
+\label{eq:lambda-sensitivity}
+\end{equation}
+
+The integrand is nonnegative.
+
+Consequently,
+
+\[
+\frac{\partial\Omega_s}{\partial\lambda}
+\leq0.
+\]
+
+Increasing the memory-decay parameter
+decreases the contribution of historical
+voltage variation.
+
+\subsection{Parameter interpretation}
+
+The three parameters influence different
+aspects of the proposed model.
+
+\begin{itemize}
+
+    \item \(\beta\) controls the magnitude
+    of the accumulated contribution.
+
+    \item \(T\) establishes a reference
+    time scale for the response.
+
+    \item \(\lambda\) controls the rate at
+    which historical contributions lose weight.
+
+\end{itemize}
+
+These parameters provide independent
+mechanisms for adjusting the mathematical
+behavior of the functional.
+
+\section{Response to Particular Voltage Signals}
+
+\subsection{Constant voltage slope}
+
+Consider a voltage signal of the form
+
+\[
+V(t)=V_0+at,
+\]
+
+where \(a\) is a constant voltage slope.
+
+Then
+
+\[
+V'(t)=a.
+\]
+
+Substituting into Equation~\eqref{eq:variation-functional},
+
+\[
+Q(t)=
+a^2\int_0^t e^{-\lambda(t-\tau)}d\tau.
+\]
+
+Therefore,
+
+\[
+Q(t)=
+\frac{a^2}{\lambda}
+\left(1-e^{-\lambda t}\right).
+\]
+
+The response becomes
+
+\begin{equation}
+\Omega_s(t)=
+\sqrt{
+\Omega_0^2+
+\frac{\beta a^2}{T\lambda}
+\left(1-e^{-\lambda t}\right)
+}.
+\label{eq:linear-voltage}
+\end{equation}
+
+As time increases, the response approaches
+
+\begin{equation}
+\lim_{t\to\infty}\Omega_s(t)
+=
+\sqrt{
+\Omega_0^2+
+\frac{\beta a^2}{T\lambda}
+}.
+\end{equation}
+
+\subsection{Sinusoidal voltage}
+
+Consider a sinusoidal voltage signal:
+
+\[
+V(t)=A\sin(\omega t).
+\]
+
+Its derivative is
+
+\[
+V'(t)=A\omega\cos(\omega t).
+\]
+
+Therefore,
+
+\[
+(V'(t))^2=
+A^2\omega^2\cos^2(\omega t).
+\]
+
+Using the identity
+
+\[
+\cos^2(\omega t)
+=
+\frac{1+\cos(2\omega t)}{2},
+\]
+
+the accumulated functional becomes
+
+\[
+Q(t)=
+\frac{A^2\omega^2}{2}
+\int_0^t
+e^{-\lambda(t-\tau)}
+\left[1+\cos(2\omega\tau)\right]d\tau.
+\]
+
+Evaluating the integral gives
+
+\begin{align}
+Q(t)=\frac{A^2\omega^2}{2}
+\Bigg[
+&\frac{1-e^{-\lambda t}}{\lambda}
+\\
+&+
+\frac{
+\lambda\cos(2\omega t)
++2\omega\sin(2\omega t)
+-\lambda e^{-\lambda t}
+}{
+\lambda^2+4\omega^2
+}
+\Bigg].
+\label{eq:sinusoidal-response}
+\end{align}
+
+Substitution into the original response
+equation provides the corresponding
+sinusoidal response.
+
+This demonstrates that the proposed functional
+can be evaluated for different classes of
+time-dependent voltage signals.
+
+\section{Scaling Properties}
+
+\subsection{Voltage amplitude scaling}
+
+Consider a scaled voltage signal
+
+\[
+\widetilde{V}(t)=aV(t),
+\]
+
+where \(a\) is a real constant.
+
+Then
+
+\[
+\widetilde{V}'(t)=aV'(t).
+\]
+
+The accumulated functional becomes
+
+\[
+\widetilde{Q}(t)=a^2Q(t).
+\]
+
+Consequently,
+
+\begin{equation}
+\widetilde{\Omega}_s(t)=
+\sqrt{
+\Omega_0^2+
+a^2\left(\Omega_s^2(t)-\Omega_0^2\right)
+}.
+\label{eq:scaling}
+\end{equation}
+
+Thus, the accumulated contribution scales
+quadratically with voltage amplitude before
+the square-root transformation.
+
+\subsection{Voltage offset invariance}
+
+Consider adding a constant voltage offset:
+
+\[
+\widetilde{V}(t)=V(t)+C.
+\]
+
+Differentiation gives
+
+\[
+\widetilde{V}'(t)=V'(t).
+\]
+
+Therefore,
+
+\begin{equation}
+\widetilde{\Omega}_s(t)=\Omega_s(t).
+\end{equation}
+
+The proposed functional is invariant under
+constant voltage offsets.
+
+Only changes in voltage contribute to
+the accumulated response.
+
+\section{Reconstruction of Voltage Variation}
+
+\subsection{Derivation}
+
+The differential representation provides
+a method for recovering the magnitude of
+the instantaneous voltage derivative.
+
+Starting from Equation~\eqref{eq:response-ode},
+
+\[
+2T\Omega_s\Omega_s'
+=
+\beta(V')^2
+-
+\lambda T(\Omega_s^2-\Omega_0^2).
+\]
+
+Rearranging,
+
+\[
+\beta(V')^2
+=
+2T\Omega_s\Omega_s'
++
+\lambda T(\Omega_s^2-\Omega_0^2).
+\]
+
+Therefore,
+
+\begin{equation}
+|V'(t)|=
+\sqrt{
+\frac{
+2T\Omega_s(t)\Omega_s'(t)
++
+\lambda T\left(\Omega_s^2(t)-\Omega_0^2\right)
+}{\beta}
+}.
+\label{eq:reconstruction}
+\end{equation}
+
+This expression is valid wherever the
+required derivatives exist and the expression
+under the square root is nonnegative.
+
+\subsection{Limitations of reconstruction}
+
+The reconstruction expression recovers
+the magnitude of the voltage derivative.
+
+It does not independently recover its sign.
+
+Consequently, the response alone cannot
+distinguish between equal-magnitude
+positive and negative voltage variations.
+
+This is an important limitation of the
+proposed functional.
+
+\section{Mathematical Interpretation and Potential Applications}
+
+\subsection{Mathematical interpretation}
+
+The Electrical Variation Response Equation
+combines three mathematical operations.
+
+First, the voltage derivative measures
+instantaneous variation.
+
+Second, the squared derivative produces
+a nonnegative contribution.
+
+Third, the exponential kernel assigns
+decreasing weight to older contributions.
+
+The resulting integral is transformed
+through a square root and combined with
+an initial response value.
+
+The equation therefore defines a
+nonnegative memory-dependent functional
+of the voltage history.
+
+\subsection{Possible electrical applications}
+
+Potential areas for further investigation include:
+
+\begin{enumerate}
+
+    \item Mathematical analysis of voltage
+    variation in time-dependent electrical systems.
+
+    \item Investigation of voltage transient
+    histories in circuit models.
+
+    \item Comparison of different voltage
+    waveforms through their accumulated
+    variation responses.
+
+    \item Mathematical investigation of
+    historical voltage dependence.
+
+    \item Development of experimental methods
+    for estimating the model parameters.
+
+\end{enumerate}
+
+These applications are prospective.
+
+The functional has not been established
+as a direct measurement of physical resistance,
+component degradation, or circuit instability.
+
+Such interpretations would require independent
+physical derivations and experimental validation.
+
+\section{Limitations and Further Investigation}
+
+The mathematical properties established in
+this paper do not independently demonstrate
+that the proposed response corresponds to
+a new physical electrical quantity.
+
+Several questions remain open.
+
+\subsection{Physical interpretation}
+
+The quantity \(\Omega_s(t)\) has units of ohms,
+but dimensional consistency alone does not
+establish that it represents electrical resistance.
+
+A physical interpretation would require
+a relationship between the functional and
+measurable circuit behavior.
+
+\subsection{Parameter identification}
+
+The parameters \(\beta\), \(T\), and \(\lambda\)
+must be investigated to determine whether
+they can be reliably estimated from experimental
+voltage histories.
+
+Their practical identifiability has not
+been established.
+
+\subsection{Comparison with existing models}
+
+The exponential memory kernel and squared
+derivative are established mathematical
+constructions.
+
+Therefore, the proposed combination should
+be compared with existing integral functionals,
+signal-processing methods, and electrical
+system models.
+
+Such comparisons are necessary before
+any claim of mathematical or practical novelty
+can be justified.
+
+\subsection{Experimental validation}
+
+Future investigations could compare the
+predicted response against measurements
+obtained from controlled voltage signals.
+
+Such experiments would be necessary to
+determine whether the functional provides
+information beyond existing electrical
+measurements.
+
+\section{Conclusion}
+
+This paper introduced the Electrical Variation
+Response Equation, a parameterized mathematical
+functional constructed from the historical
+variation of a voltage signal.
+
+The proposed equation is
+
+\[
+\Omega_s(t)=
+\sqrt{
+\Omega_0^2+
+\frac{\beta}{T}
+\int_0^t
+e^{-\lambda(t-\tau)}
+\left(\frac{dV(\tau)}{d\tau}\right)^2
+\,d\tau
+}.
+\]
+
+The analysis established its dimensional
+consistency under appropriate parameter units,
+nonnegativity, continuity, and boundedness
+under bounded voltage-derivative conditions.
+
+An equivalent first-order differential equation
+was derived, demonstrating that the historical
+integral can be represented through a local
+evolution equation.
+
+The investigation also established parameter
+sensitivities, voltage scaling properties,
+constant-offset invariance, and expressions
+for particular voltage signals.
+
+A reconstruction formula was obtained for
+the magnitude of the instantaneous voltage
+derivative when the response and model
+parameters are known.
+
+The proposed functional provides a mathematical
+framework for examining accumulated voltage
+variation with exponentially decreasing
+historical weighting.
+
+However, its physical significance and
+practical usefulness remain open questions.
+
+Further work should investigate its relationship
+to existing electrical models, parameter
+identifiability, and experimental validation.
+
+\section{Acknowledgments}
+
+The author thanks the teachers, mentors,
+and individuals who encourage mathematical
+exploration, electrical engineering, and
+independent scientific investigation.
+
+\end{document}
